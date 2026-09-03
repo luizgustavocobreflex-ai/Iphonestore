@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>VÉRTICE — iPhones selecionados, entrega para todo o Brasil</title>
+<meta name="description" content="A VÉRTICE seleciona e entrega iPhones originais para todo o Brasil, com atendimento especializado, pagamento facilitado e suporte pós-venda.">
+
+<meta property="og:title" content="VÉRTICE — Seu próximo iPhone começa aqui">
+<meta property="og:description" content="Tecnologia, design e performance em uma experiência de compra criada para quem exige mais.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --black:#0a0a0c;
+  --graphite:#17171a;
+  --charcoal:#232327;
+  --charcoal-2:#2c2c31;
+  --titanium:#8c8e95;
+  --silver:#cacbd1;
+  --white:#f5f5f7;
+  --accent:#6d87a8;
+  --accent-dim:#4a5c70;
+  --display:"Bricolage Grotesque","Inter",sans-serif;
+  --body:"Inter",sans-serif;
+  --ease:cubic-bezier(.22,.68,.14,1);
+  --ease-soft:cubic-bezier(.4,0,.2,1);
+  --container:1240px;
+  --edge:clamp(20px,5vw,64px);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--black)}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+body{
+  font-family:var(--body);
+  background:var(--black);
+  color:var(--white);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  line-height:1.5;
+}
+img,svg{display:block;max-width:100%}
+img{user-select:none;-webkit-user-drag:none}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+ul{list-style:none}
+.container{max-width:var(--container);margin:0 auto;padding:0 var(--edge)}
+::selection{background:var(--accent);color:var(--white)}
+h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.01em}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+.grain{
+  position:fixed;inset:0;pointer-events:none;z-index:2;
+  opacity:.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.scroll-progress{
+  position:fixed;top:0;left:0;height:2px;width:0%;
+  background:linear-gradient(90deg,var(--accent),var(--silver));
+  z-index:1000;transition:width .1s linear
+}
+
+/* CURSOR */
+.cursor{
+  position:fixed;top:0;left:0;z-index:999;pointer-events:none;
+  width:34px;height:34px;margin:-17px 0 0 -17px;
+  border-radius:50%;border:1px solid rgba(245,245,247,.55);
+  transform:translate(-100px,-100px);
+  transition:width .25s var(--ease-soft),height .25s var(--ease-soft),background .25s var(--ease-soft),border-color .25s var(--ease-soft);
+  display:flex;align-items:center;justify-content:center
+}
+.cursor span{
+  font-family:var(--body);font-size:11px;font-weight:500;letter-spacing:.02em;
+  opacity:0;transition:opacity .2s var(--ease-soft);
+  color:var(--black);white-space:nowrap
+}
+.cursor.is-active{width:64px;height:64px;margin:-32px 0 0 -32px;background:var(--white);border-color:transparent}
+.cursor.is-active span{opacity:1}
+body.has-fine-pointer{cursor:none}
+body.has-fine-pointer a,body.has-fine-pointer button{cursor:none}
+
+/* NAV */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  padding:22px var(--edge);
+  display:flex;align-items:center;justify-content:space-between;
+  background:transparent;border-bottom:1px solid transparent;
+  transition:background .4s var(--ease-soft),border-color .4s var(--ease-soft),padding .4s var(--ease-soft),backdrop-filter .4s var(--ease-soft)
+}
+.nav.is-scrolled{
+  padding:14px var(--edge);
+  background:rgba(10,10,12,.72);
+  backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  border-bottom:1px solid rgba(245,245,247,.08)
+}
+.nav__brand{
+  font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.02em;
+  display:flex;align-items:center;gap:8px
+}
+.nav__brand .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.nav__links{display:flex;gap:36px}
+.nav__links a{
+  font-size:14.5px;color:var(--silver);position:relative;padding:4px 0;
+  transition:color .3s var(--ease-soft)
+}
+.nav__links a::after{
+  content:"";position:absolute;left:0;bottom:0;height:1px;width:0;
+  background:var(--white);transition:width .3s var(--ease-soft)
+}
+.nav__links a:hover{color:var(--white)}
+.nav__links a:hover::after{width:100%}
+.nav__actions{display:flex;align-items:center;gap:20px}
+.nav__icon-btn{width:20px;height:20px;opacity:.85;transition:opacity .3s var(--ease-soft),transform .3s var(--ease-soft)}
+.nav__icon-btn:hover{opacity:1;transform:translateY(-1px)}
+.nav__wa{
+  display:flex;align-items:center;gap:8px;
+  border:1px solid rgba(245,245,247,.22);border-radius:100px;
+  padding:8px 16px;font-size:13.5px;
+  transition:border-color .3s var(--ease-soft),background .3s var(--ease-soft)
+}
+.nav__wa:hover{border-color:rgba(245,245,247,.5);background:rgba(245,245,247,.06)}
+.nav__burger{display:none;width:22px;height:16px;position:relative}
+.nav__burger span{position:absolute;left:0;right:0;height:1px;background:var(--white)}
+.nav__burger span:nth-child(1){top:0}
+.nav__burger span:nth-child(2){top:7px}
+.nav__burger span:nth-child(3){top:14px}
+@media(max-width:900px){
+  .nav__links{display:none}
+  .nav__wa span.wa-label{display:none}
+}
+
+/* HERO */
+.hero{
+  position:relative;min-height:100dvh;display:flex;align-items:center;
+  overflow:hidden;
+  background:
+    radial-gradient(120% 90% at 78% 12%,rgba(109,135,168,.16),transparent 55%),
+    radial-gradient(90% 70% at 15% 100%,rgba(255,255,255,.05),transparent 60%),
+    linear-gradient(180deg,var(--black) 0%,#0d0d10 60%,var(--black) 100%);
+  padding-top:80px
+}
+.hero__inner{
+  width:100%;max-width:var(--container);margin:0 auto;padding:0 var(--edge);
+  display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:42px
+}
+.hero__kicker{
+  font-size:14px;color:var(--titanium);letter-spacing:.01em;margin-bottom:22px;
+  opacity:0;transform:translateY(10px)
+}
+.hero__kicker::before{
+  content:"";display:inline-block;width:22px;height:1px;background:var(--titanium);
+  margin-right:10px;vertical-align:middle
+}
+.hero h1{
+  font-size:clamp(40px,6vw,76px);line-height:1.02;color:var(--white);
+  max-width:11.5ch
+}
+.hero h1 .line{display:block;overflow:hidden}
+.hero h1 .line span{display:block;transform:translateY(110%)}
+.hero__sub{
+  margin-top:26px;font-size:17px;line-height:1.6;color:var(--silver);
+  max-width:42ch;opacity:0;transform:translateY(14px)
+}
+.hero__ctas{margin-top:38px;display:flex;gap:14px;flex-wrap:wrap;opacity:0;transform:translateY(14px)}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:15px 28px;border-radius:100px;font-size:14.5px;font-weight:500;
+  transition:transform .35s var(--ease-soft),background .35s var(--ease-soft),border-color .35s var(--ease-soft),color .35s var(--ease-soft)
+}
+.btn--primary{background:var(--white);color:var(--black)}
+.btn--primary:hover{transform:translateY(-2px);background:var(--silver)}
+.btn--ghost{border:1px solid rgba(245,245,247,.25);color:var(--white)}
+.btn--ghost:hover{border-color:rgba(245,245,247,.6);transform:translateY(-2px)}
+.hero__visual{position:relative;display:flex;justify-content:center;align-items:center}
+.hero__glow{
+  position:absolute;width:560px;height:560px;border-radius:50%;
+  background:radial-gradient(circle,rgba(109,135,168,.30),transparent 70%);
+  filter:blur(34px);opacity:0;transition:opacity 1.4s var(--ease-soft)
+}
+.hero__phone-wrap{
+  position:relative;opacity:0;transform:translateY(40px) scale(.94);
+  width:min(610px,48vw);aspect-ratio:16/11;border-radius:32px;overflow:hidden;
+  background:#f5f5f7;
+  box-shadow:0 44px 110px rgba(0,0,0,.46),0 0 0 1px rgba(255,255,255,.06)
+}
+.hero__phone-wrap img{
+  width:100%;height:100%;object-fit:cover;transform:scale(1.44);
+  transition:transform 1.15s var(--ease)
+}
+.hero__phone-wrap:hover img{transform:scale(1.50)}
+.hero__scrollcue{
+  position:absolute;bottom:34px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:var(--titanium);font-size:11.5px;opacity:0
+}
+.hero__scrollcue .line{
+  width:1px;height:34px;background:linear-gradient(var(--titanium),transparent);
+  animation:scrollcue 2.2s var(--ease-soft) infinite
+}
+@keyframes scrollcue{
+  0%{transform:scaleY(0);transform-origin:top}
+  50%{transform:scaleY(1);transform-origin:top}
+  51%{transform-origin:bottom}
+  100%{transform:scaleY(0);transform-origin:bottom}
+}
+body.is-ready .hero__kicker{opacity:1;transform:none;transition:opacity .9s var(--ease) .15s,transform .9s var(--ease) .15s}
+body.is-ready .hero h1 .line span{transition:transform 1s var(--ease)}
+body.is-ready .hero h1 .line:nth-child(1) span{transition-delay:.28s}
+body.is-ready .hero h1 .line:nth-child(2) span{transition-delay:.4s}
+body.is-ready .hero h1 .line:nth-child(3) span{transition-delay:.52s}
+body.is-ready .hero h1 .line span{transform:translateY(0)}
+body.is-ready .hero__sub{opacity:1;transform:none;transition:opacity 1s var(--ease) .7s,transform 1s var(--ease) .7s}
+body.is-ready .hero__ctas{opacity:1;transform:none;transition:opacity 1s var(--ease) .85s,transform 1s var(--ease) .85s}
+body.is-ready .hero__glow{opacity:1;transition:opacity 1.8s var(--ease-soft) .3s}
+body.is-ready .hero__phone-wrap{opacity:1;transform:none;transition:opacity 1.3s var(--ease) .45s,transform 1.3s var(--ease) .45s}
+body.is-ready .hero__scrollcue{opacity:1;transition:opacity 1s var(--ease) 1.4s}
+@media(max-width:900px){
+  .hero{padding-top:120px;padding-bottom:80px}
+  .hero__inner{grid-template-columns:1fr;text-align:left}
+  .hero__visual{margin-top:44px;order:2}
+  .hero h1{max-width:none}
+  .hero__phone-wrap{width:min(100%,680px);aspect-ratio:16/11}
+  .hero__scrollcue{display:none}
+}
+
+/* SHARED */
+section{position:relative}
+.section-pad{padding:min(14vw,150px) 0}
+.section-head{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:40px;
+  margin-bottom:64px;flex-wrap:wrap
+}
+.section-head h2{font-size:clamp(30px,4vw,48px);line-height:1.08;max-width:16ch;color:var(--white)}
+.section-head p{color:var(--titanium);font-size:15.5px;max-width:34ch;margin-top:6px}
+.section-label{font-size:13.5px;color:var(--accent);margin-bottom:14px}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.reveal.is-visible{opacity:1;transform:none}
+.reveal-scale{opacity:0;transform:scale(.96);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
+.reveal-scale.is-visible{opacity:1;transform:none}
+
+/* GALLERY */
+.gallery{background:var(--black)}
+.gallery__grid{display:grid;grid-template-columns:repeat(6,1fr);gap:18px}
+.gallery__item{
+  position:relative;border-radius:18px;overflow:hidden;background:#f5f5f7
+}
+.gallery__item.big{grid-column:span 4;aspect-ratio:16/10}
+.gallery__item.tall{grid-column:span 2;grid-row:span 2;min-height:100%}
+.gallery__item.small{grid-column:span 3;aspect-ratio:4/3}
+.gallery__item img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transition:transform 1.2s var(--ease-soft)
+}
+.gallery__item.photo-wide img{transform:scale(1.08)}
+.gallery__item.photo-product img{transform:scale(1.35)}
+.gallery__item.photo-close img{transform:scale(1.01)}
+.gallery__item:hover img{transform:scale(1.08)}
+.gallery__item.photo-product:hover img{transform:scale(1.42)}
+.gallery__item .cap{
+  position:absolute;left:22px;right:22px;bottom:20px;z-index:2;
+  font-size:13.5px;color:var(--white)
+}
+.gallery__item::after{
+  content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(0deg,rgba(0,0,0,.72),rgba(0,0,0,.05) 50%,transparent 70%)
+}
+@media(max-width:900px){
+  .gallery__grid{grid-template-columns:repeat(2,1fr)}
+  .gallery__item.big,.gallery__item.tall,.gallery__item.small{grid-column:span 2;aspect-ratio:4/3;grid-row:auto;min-height:0}
+}
+
+/* PRODUCTS */
+.products{background:linear-gradient(180deg,var(--black),var(--graphite) 40%,var(--black))}
+.products__grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:20px}
+.product-card{
+  position:relative;border-radius:24px;padding:34px 30px 30px;
+  background:linear-gradient(160deg,var(--charcoal),var(--graphite));
+  border:1px solid rgba(245,245,247,.06);
+  display:flex;flex-direction:column;
+  transition:transform .5s var(--ease-soft),border-color .5s var(--ease-soft),background .5s var(--ease-soft);
+  overflow:hidden
+}
+.product-card::before{
+  content:"";position:absolute;inset:0;opacity:0;z-index:0;
+  background:radial-gradient(120% 90% at 20% 0%,rgba(109,135,168,.18),transparent 60%);
+  transition:opacity .5s var(--ease-soft)
+}
+.product-card:hover{transform:translateY(-6px);border-color:rgba(245,245,247,.16)}
+.product-card:hover::before{opacity:1}
+.product-card.featured{grid-row:span 2;padding:44px 38px 38px}
+.product-card__tag{
+  align-self:flex-start;font-size:12px;color:var(--accent);
+  border:1px solid rgba(109,135,168,.4);padding:5px 12px;border-radius:100px;
+  margin-bottom:22px;position:relative;z-index:1
+}
+.product-card__media{
+  align-self:center;width:100%;aspect-ratio:16/10;margin:6px 0 26px;
+  position:relative;z-index:1;border-radius:18px;overflow:hidden;background:#f5f5f7
+}
+.product-card.featured .product-card__media{aspect-ratio:16/11}
+.product-card__media img{
+  width:100%;height:100%;object-fit:cover;transform:scale(1.38);
+  transition:transform .75s var(--ease)
+}
+.product-card:hover .product-card__media img{transform:scale(1.46)}
+.product-card__name{font-family:var(--display);font-weight:600;font-size:21px;position:relative;z-index:1}
+.product-card.featured .product-card__name{font-size:27px}
+.product-card__meta{color:var(--titanium);font-size:13.5px;margin-top:6px;position:relative;z-index:1}
+.product-card__price-row{margin-top:22px;display:flex;align-items:baseline;gap:10px;position:relative;z-index:1}
+.product-card__price{font-family:var(--display);font-size:24px;font-weight:600}
+.product-card.featured .product-card__price{font-size:30px}
+.product-card__install{color:var(--titanium);font-size:13px;margin-top:2px;position:relative;z-index:1}
+.product-card__cta{
+  margin-top:24px;display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid rgba(245,245,247,.08);padding-top:20px;
+  font-size:14px;color:var(--white);position:relative;z-index:1
+}
+.product-card__cta .arrow{width:16px;height:16px;transition:transform .3s var(--ease-soft)}
+.product-card:hover .product-card__cta .arrow{transform:translate(3px,-3px)}
+@media(max-width:1000px){
+  .products__grid{grid-template-columns:1fr 1fr}
+  .product-card.featured{grid-column:span 2;grid-row:auto}
+}
+@media(max-width:640px){
+  .products__grid{grid-template-columns:1fr}
+  .product-card.featured{grid-column:span 1}
+}
+
+/* DETAILS */
+.details{background:var(--black)}
+.detail-row{
+  display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:center;
+  padding:70px 0;border-top:1px solid rgba(245,245,247,.08)
+}
+.detail-row:last-child{border-bottom:1px solid rgba(245,245,247,.08)}
+.detail-row:nth-child(even) .detail-visual{order:2}
+.detail-row__label{font-size:13px;color:var(--accent);margin-bottom:16px}
+.detail-row h3{font-size:clamp(24px,2.6vw,34px);color:var(--white);max-width:14ch}
+.detail-row p{margin-top:16px;color:var(--titanium);font-size:15.5px;max-width:40ch;line-height:1.7}
+.detail-visual{
+  aspect-ratio:16/11;border-radius:20px;overflow:hidden;position:relative;
+  background:#f5f5f7;display:flex;align-items:center;justify-content:center
+}
+.detail-visual img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .9s var(--ease)
+}
+.detail-row:hover .detail-visual img{transform:scale(1.035)}
+.detail-visual.photo-product img{transform:scale(1.26)}
+.detail-row:hover .detail-visual.photo-product img{transform:scale(1.32)}
+@media(max-width:860px){
+  .detail-row,.detail-row:nth-child(even){grid-template-columns:1fr}
+  .detail-row:nth-child(even) .detail-visual{order:0}
+  .detail-row{gap:28px;padding:44px 0}
+}
+
+/* COMPARE */
+.compare{background:var(--graphite)}
+.compare__frame{
+  position:relative;max-width:900px;margin:0 auto;aspect-ratio:16/10;
+  border-radius:28px;overflow:hidden;background:#f5f5f7;
+  box-shadow:0 40px 90px rgba(0,0,0,.5)
+}
+.compare__side{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;background:#f5f5f7
+}
+.compare__side img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transform:scale(1.30)
+}
+.compare__side.after{clip-path:inset(0 0 0 50%)}
+.compare__handle-input{
+  position:absolute;inset:0;width:100%;height:100%;margin:0;
+  opacity:0;cursor:ew-resize;-webkit-appearance:none;z-index:5
+}
+.compare__divider{
+  position:absolute;top:0;bottom:0;left:50%;width:1px;background:rgba(245,245,247,.78);
+  pointer-events:none;transform:translateX(-.5px);z-index:4
+}
+.compare__handle{
+  position:absolute;top:50%;left:50%;width:46px;height:46px;border-radius:50%;
+  background:var(--white);transform:translate(-50%,-50%);
+  display:flex;align-items:center;justify-content:center;pointer-events:none;
+  box-shadow:0 8px 20px rgba(0,0,0,.4);z-index:4
+}
+.compare__handle svg{width:16px;height:16px}
+.compare__labels{
+  display:flex;justify-content:space-between;max-width:900px;margin:18px auto 0;
+  font-size:13.5px;color:var(--titanium)
+}
+
+/* TRUST */
+.trust{
+  background:var(--black);border-top:1px solid rgba(245,245,247,.08);
+  border-bottom:1px solid rgba(245,245,247,.08)
+}
+.trust__list{display:grid;grid-template-columns:repeat(3,1fr)}
+.trust__item{
+  padding:44px 36px;border-left:1px solid rgba(245,245,247,.08);
+  display:flex;flex-direction:column;gap:14px
+}
+.trust__item:nth-child(3n+1){border-left:none}
+.trust__icon{width:26px;height:26px;opacity:.9}
+.trust__item h4{font-family:var(--display);font-weight:600;font-size:17.5px}
+.trust__item p{color:var(--titanium);font-size:14px;line-height:1.6;max-width:30ch}
+@media(max-width:860px){
+  .trust__list{grid-template-columns:1fr}
+  .trust__item{border-left:none;border-top:1px solid rgba(245,245,247,.08);padding:32px 0}
+  .trust__item:first-child{border-top:none}
+}
+
+/* TESTIMONIALS */
+.testimonials{background:var(--black)}
+.testi__track{
+  display:flex;gap:22px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x proximity;
+  scrollbar-width:none
+}
+.testi__track::-webkit-scrollbar{display:none}
+.testi-card{
+  flex:0 0 min(400px,82vw);scroll-snap-align:start;
+  background:var(--graphite);border:1px solid rgba(245,245,247,.07);
+  border-radius:20px;padding:34px 30px
+}
+.testi-card p.quote{font-size:16.5px;line-height:1.65;color:var(--white)}
+.testi-card .who{margin-top:24px;display:flex;align-items:center;gap:12px}
+.testi-card .avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(155deg,var(--titanium),var(--charcoal-2));
+  display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600
+}
+.testi-card .who .name{font-size:14px;font-weight:500}
+.testi-card .who .loc{font-size:12.5px;color:var(--titanium)}
+
+/* OFFERS */
+.offers{background:linear-gradient(180deg,var(--black),var(--graphite))}
+.offers__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.offer-card{
+  border-radius:20px;padding:32px 28px;background:var(--charcoal);
+  border:1px solid rgba(245,245,247,.07);
+  transition:border-color .4s var(--ease-soft),transform .4s var(--ease-soft)
+}
+.offer-card:hover{transform:translateY(-4px);border-color:rgba(245,245,247,.2)}
+.offer-card .num{font-family:var(--display);font-size:14px;color:var(--accent);margin-bottom:18px}
+.offer-card h4{font-family:var(--display);font-weight:600;font-size:19px}
+.offer-card p{margin-top:12px;color:var(--titanium);font-size:14px;line-height:1.65}
+.offer-card a{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-size:13.5px;color:var(--white)}
+@media(max-width:900px){.offers__grid{grid-template-columns:1fr}}
+
+/* FOOTER */
+.footer-cta{
+  text-align:center;padding:min(16vw,160px) var(--edge);
+  background:radial-gradient(90% 140% at 50% 0%,rgba(109,135,168,.14),transparent 60%),var(--black)
+}
+.footer-cta h2{font-size:clamp(32px,5vw,58px);max-width:16ch;margin:0 auto}
+.footer-cta .btn{margin-top:34px}
+footer{background:var(--graphite);padding:70px var(--edge) 30px}
+.footer__top{
+  display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;
+  padding-bottom:50px;border-bottom:1px solid rgba(245,245,247,.08)
+}
+.footer__brand{font-family:var(--display);font-weight:700;font-size:22px}
+.footer__brand p{margin-top:16px;color:var(--titanium);font-size:14px;max-width:32ch;line-height:1.65}
+.footer__col h5{font-size:13px;color:var(--titanium);font-weight:500;margin-bottom:16px}
+.footer__col ul li{margin-bottom:11px}
+.footer__col ul li a{font-size:14px;color:var(--silver);transition:color .3s}
+.footer__col ul li a:hover{color:var(--white)}
+.footer__bottom{display:flex;justify-content:space-between;align-items:center;padding-top:26px;flex-wrap:wrap;gap:14px}
+.footer__bottom p{font-size:12.5px;color:var(--titanium)}
+@media(max-width:860px){.footer__top{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.footer__top{grid-template-columns:1fr}}
+
+/* FLOATING WHATSAPP */
+.float-wa{
+  position:fixed;right:26px;bottom:26px;z-index:400;
+  width:58px;height:58px;border-radius:50%;
+  background:var(--white);color:var(--black);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 14px 34px rgba(0,0,0,.4);
+  opacity:0;transform:translateY(16px) scale(.9);
+  transition:transform .4s var(--ease-soft),background .3s,opacity .4s
+}
+body.is-ready .float-wa{opacity:1;transform:none;transition-delay:1.6s}
+.float-wa:hover{background:var(--silver)}
+.float-wa svg{width:26px;height:26px}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+
+<body>
+
+<div class="grain"></div>
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="cursor" id="cursor"><span id="cursorLabel"></span></div>
+
+<header class="nav" id="nav">
+  <a href="#" class="nav__brand" data-cursor="Início"><span class="dot"></span>VÉRTICE</a>
+
+  <nav class="nav__links">
+    <a href="#hero">Início</a>
+    <a href="#produtos">iPhones</a>
+    <a href="#ofertas">Ofertas</a>
+    <a href="#acessorios">Galeria</a>
+    <a href="#sobre">Sobre nós</a>
+    <a href="#contato">Contato</a>
+  </nav>
+
+  <div class="nav__actions">
+    <button class="nav__icon-btn" aria-label="Buscar" data-cursor="Buscar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+    <button class="nav__icon-btn" aria-label="Sacola" data-cursor="Sacola">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+    </button>
+    <a class="nav__wa" href="#" id="navWa" target="_blank" rel="noopener">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.86.5 3.6 1.36 5.1L2 22l5.06-1.32A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm5.2 14.3c-.22.62-1.28 1.18-1.77 1.24-.45.06-1 .08-1.62-.1-.37-.11-.86-.28-1.48-.55-2.6-1.12-4.3-3.74-4.43-3.92-.13-.18-1.06-1.4-1.06-2.68 0-1.27.67-1.9.9-2.16.24-.26.5-.32.67-.32h.48c.15 0 .36-.06.56.43.22.53.73 1.85.8 1.98.06.13.1.28.02.46-.09.18-.13.28-.26.44-.13.15-.28.34-.4.46-.13.13-.27.27-.12.53.15.26.68 1.13 1.47 1.84 1.01.9 1.86 1.19 2.12 1.32.26.13.41.11.57-.07.15-.18.65-.76.83-1.02.18-.26.35-.21.59-.13.24.09 1.53.72 1.79.85.26.13.44.2.5.31.06.13.06.72-.16 1.33Z"/></svg>
+      <span class="wa-label">Falar no WhatsApp</span>
+    </a>
+    <div class="nav__burger" aria-hidden="true"><span></span><span></span><span></span></div>
+  </div>
+</header>
+
+<section class="hero" id="hero">
+  <div class="hero__inner">
+    <div class="hero__copy">
+      <p class="hero__kicker">Curadoria independente de iPhones</p>
+      <h1>
+        <span class="line"><span>Seu próximo</span></span>
+        <span class="line"><span>iPhone começa</span></span>
+        <span class="line"><span>aqui.</span></span>
+      </h1>
+      <p class="hero__sub">Tecnologia, design e performance em uma experiência de compra criada para quem exige mais — com atendimento especializado do início ao pós-venda.</p>
+      <div class="hero__ctas">
+        <a href="#produtos" class="btn btn--primary" data-cursor="Ver">Ver iPhones</a>
+        <a href="#detalhes" class="btn btn--ghost" data-cursor="Explorar">Explorar modelos</a>
+      </div>
+    </div>
+
+    <div class="hero__visual">
+      <div class="hero__glow"></div>
+      <div class="hero__phone-wrap" id="heroPhoneWrap">
+        <img
+          src="assets/iphone-17-pro-model-unselect-gallery-2-202509.webp"
+          alt="iPhone 17 Pro"
+          width="5120"
+          height="2880"
+          fetchpriority="high"
+          decoding="async">
+      </div>
+    </div>
+  </div>
+
+  <div class="hero__scrollcue"><span>Role para explorar</span><span class="line"></span></div>
+</section>
+
+<section class="gallery section-pad" id="acessorios">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <p class="section-label">Direção de arte</p>
+        <h2>Fotografia real. Produto em primeiro plano.</h2>
+      </div>
+      <p>Imagens de alta resolução para apresentar acabamento, câmeras e design sem recorrer a mockups genéricos.</p>
+    </div>
+
+    <div class="gallery__grid">
+      <div class="gallery__item big photo-close reveal-scale">
+        <img src="assets/iphone-17-pro-finish-select-202509-6-3inch-cosmicorange_AV3.webp" alt="Detalhe das câmeras do iPhone 17 Pro em Laranja Cósmico" loading="lazy" decoding="async">
+        <span class="cap">Pro — acabamento e sistema de câmeras</span>
+      </div>
+
+      <div class="gallery__item tall photo-close reveal-scale">
+        <img src="assets/prores__mg5ug8qfvmqi_large.jpg" alt="iPhone Pro com interface de gravação de vídeo" loading="lazy" decoding="async">
+        <span class="cap">Criado para foto e vídeo de alto nível</span>
+      </div>
+
+      <div class="gallery__item small photo-product reveal-scale">
+        <img src="assets/iphone-17-finish-select-202509-mistblue.webp" alt="iPhone 17 Azul Névoa" loading="lazy" decoding="async">
+        <span class="cap">Azul Névoa</span>
+      </div>
+
+      <div class="gallery__item small photo-product reveal-scale">
+        <img src="assets/iphone-17-finish-select-202509-sage.webp" alt="iPhone 17 Verde Sálvia" loading="lazy" decoding="async">
+        <span class="cap">Verde Sálvia</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="products section-pad" id="produtos">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <p class="section-label">Linha atual</p>
+        <h2>Escolha seu próximo iPhone.</h2>
+      </div>
+      <p>Modelos apresentados com imagens reais em alta resolução. Consulte estoque, capacidade e condições pelo WhatsApp.</p>
+    </div>
+
+    <div class="products__grid" id="productGrid"></div>
+  </div>
+</section>
+
+<section class="details section-pad" id="detalhes">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <p class="section-label">Detalhes</p>
+        <h2>Veja de perto o que faz diferença.</h2>
+      </div>
+      <p>Imagens reais substituem os antigos desenhos e deixam acabamento, câmeras e construção muito mais claros.</p>
+    </div>
+
+    <div class="detail-row reveal">
+      <div class="detail-copy">
+        <p class="detail-row__label">Câmera</p>
+        <h3>Sistema fotográfico de nível profissional.</h3>
+        <p>O conjunto de câmeras ganha protagonismo em uma imagem macro de alta resolução, sem ilustrações genéricas.</p>
+      </div>
+      <div class="detail-visual">
+        <img src="assets/iphone-17-pro-finish-select-202509-6-3inch-silver_AV3.webp" alt="Detalhe das câmeras do iPhone 17 Pro prateado" loading="lazy" decoding="async">
+      </div>
+    </div>
+
+    <div class="detail-row reveal">
+      <div class="detail-copy">
+        <p class="detail-row__label">Design</p>
+        <h3>Proporções, tela e acabamento reais.</h3>
+        <p>Uma visão completa do aparelho ajuda o cliente a entender o produto antes mesmo de falar com um especialista.</p>
+      </div>
+      <div class="detail-visual photo-product">
+        <img src="assets/iphone-17-finish-unselect-gallery-2-202509.webp" alt="iPhone 17 em visão frontal e traseira" loading="lazy" decoding="async">
+      </div>
+    </div>
+
+    <div class="detail-row reveal">
+      <div class="detail-copy">
+        <p class="detail-row__label">Performance</p>
+        <h3>Potência para criar, jogar e trabalhar.</h3>
+        <p>Uma apresentação visual mais forte aproxima o produto da experiência real e reforça a percepção premium.</p>
+      </div>
+      <div class="detail-visual photo-product">
+        <img src="assets/iphone-17-pro-model-unselect-gallery-2-202509.webp" alt="iPhone 17 Pro em Laranja Cósmico" loading="lazy" decoding="async">
+      </div>
+    </div>
+
+    <div class="detail-row reveal">
+      <div class="detail-copy">
+        <p class="detail-row__label">Acabamento</p>
+        <h3>Construção que muda sob a luz.</h3>
+        <p>Reflexos, textura e profundidade aparecem de forma muito mais convincente quando o próprio aparelho é fotografado.</p>
+      </div>
+      <div class="detail-visual">
+        <img src="assets/iphone-17-finish-select-202509-black_AV2.webp" alt="Detalhe do acabamento preto do iPhone 17" loading="lazy" decoding="async">
+      </div>
+    </div>
+
+    <div class="detail-row reveal">
+      <div class="detail-copy">
+        <p class="detail-row__label">Cores</p>
+        <h3>Escolha o acabamento que combina com você.</h3>
+        <p>Compare diferentes opções usando fotografias consistentes, com o mesmo enquadramento e iluminação.</p>
+      </div>
+      <div class="detail-visual photo-product">
+        <img src="assets/iphone-17-finish-select-202509-lavender_AV1.webp" alt="iPhone 17 em acabamento lavanda" loading="lazy" decoding="async">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="compare section-pad">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <p class="section-label">Acabamentos</p>
+        <h2>Compare as cores lado a lado.</h2>
+      </div>
+      <p>Arraste para comparar Preto e Azul Névoa usando duas imagens reais com o mesmo enquadramento.</p>
+    </div>
+
+    <div class="compare__frame reveal-scale" id="compareFrame">
+      <div class="compare__side before">
+        <img src="assets/iphone-17-finish-select-202509-black.webp" alt="iPhone 17 Preto" loading="lazy" decoding="async">
+      </div>
+      <div class="compare__side after">
+        <img src="assets/iphone-17-finish-select-202509-mistblue.webp" alt="iPhone 17 Azul Névoa" loading="lazy" decoding="async">
+      </div>
+      <div class="compare__divider" id="compareDivider"></div>
+      <div class="compare__handle" id="compareHandle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0c" stroke-width="2"><path d="M8 7 4 12l4 5M16 7l4 5-4 5"/></svg>
+      </div>
+      <input type="range" min="0" max="100" value="50" class="compare__handle-input" id="compareInput" data-cursor="Arrastar" aria-label="Comparar acabamentos">
+    </div>
+    <div class="compare__labels"><span>Preto</span><span>Azul Névoa</span></div>
+  </div>
+</section>
+
+<section class="trust">
+  <div class="container">
+    <div class="trust__list">
+      <div class="trust__item reveal">
+        <svg class="trust__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2 4 5v6c0 5 3.4 8.9 8 11 4.6-2.1 8-6 8-11V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+        <h4>Compra segura</h4>
+        <p>Produtos originais, nota fiscal e garantia — sem letras miúdas.</p>
+      </div>
+      <div class="trust__item reveal">
+        <svg class="trust__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h13v10H3z"/><path d="M16 10h3l2 3v4h-5"/><circle cx="7.5" cy="18.5" r="1.5"/><circle cx="17.5" cy="18.5" r="1.5"/></svg>
+        <h4>Envio para todo o Brasil</h4>
+        <p>Embalagem reforçada e rastreio em tempo real, do pedido à entrega.</p>
+      </div>
+      <div class="trust__item reveal">
+        <svg class="trust__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2a5 5 0 0 1 5 5v3H7V7a5 5 0 0 1 5-5Z"/><path d="M5 10h14v10H5z"/></svg>
+        <h4>Pagamento facilitado</h4>
+        <p>Parcelamento em até 12x e condições para troca do seu aparelho atual.</p>
+      </div>
+      <div class="trust__item reveal">
+        <svg class="trust__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4h16v12H7l-3 3V4Z"/></svg>
+        <h4>Atendimento especializado</h4>
+        <p>Time que entende de cada modelo para te ajudar a escolher com clareza.</p>
+      </div>
+      <div class="trust__item reveal">
+        <svg class="trust__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        <h4>Suporte pós-venda</h4>
+        <p>Acompanhamento contínuo, mesmo depois que a compra é concluída.</p>
+      </div>
+      <div class="trust__item reveal">
+        <svg class="trust__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 7 9 18l-5-5"/></svg>
+        <h4>Produtos selecionados</h4>
+        <p>Cada unidade passa por conferência antes de sair do estoque.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials section-pad" id="sobre">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <p class="section-label">Quem já comprou</p>
+        <h2>Histórias de quem escolheu a VÉRTICE.</h2>
+      </div>
+    </div>
+
+    <div class="testi__track reveal">
+      <div class="testi-card">
+        <p class="quote">Comprei o Pro Max e o processo foi todo acompanhado por WhatsApp, sem enrolação. Chegou dois dias antes do prazo.</p>
+        <div class="who"><div class="avatar">MF</div><div><div class="name">Mariana F.</div><div class="loc">Belo Horizonte, MG · iPhone Pro Max</div></div></div>
+      </div>
+      <div class="testi-card">
+        <p class="quote">Troquei meu aparelho antigo na entrada e o atendimento explicou cada detalhe da diferença entre os modelos.</p>
+        <div class="who"><div class="avatar">RC</div><div><div class="name">Rafael C.</div><div class="loc">Porto Alegre, RS · iPhone Pro</div></div></div>
+      </div>
+      <div class="testi-card">
+        <p class="quote">Comprei meu primeiro iPhone e me senti segura do início ao fim, com nota fiscal e garantia de verdade.</p>
+        <div class="who"><div class="avatar">JS</div><div><div class="name">Juliana S.</div><div class="loc">Recife, PE · iPhone</div></div></div>
+      </div>
+      <div class="testi-card">
+        <p class="quote">O parcelamento coube no meu orçamento e o suporte respondeu até depois da compra, sem eu precisar cobrar.</p>
+        <div class="who"><div class="avatar">TP</div><div><div class="name">Thiago P.</div><div class="loc">Curitiba, PR · iPhone</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="offers section-pad" id="ofertas">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <p class="section-label">Condições</p>
+        <h2>Condições especiais.</h2>
+      </div>
+      <p>Facilidades pensadas para tornar a troca ou primeira compra mais simples — sem virar liquidação.</p>
+    </div>
+
+    <div class="offers__grid reveal">
+      <div class="offer-card">
+        <p class="num">Entrada</p>
+        <h4>Parcelamento facilitado</h4>
+        <p>Em até 12x no cartão, com simulação enviada direto no WhatsApp antes de você decidir.</p>
+        <a href="#" class="offer-cta" data-product="condições de parcelamento">Consultar disponibilidade</a>
+      </div>
+      <div class="offer-card">
+        <p class="num">Troca</p>
+        <h4>Troque seu aparelho atual</h4>
+        <p>Avaliamos seu iPhone usado e abatemos o valor direto na entrada do novo.</p>
+        <a href="#" class="offer-cta" data-product="troca do meu iPhone atual">Tenho interesse</a>
+      </div>
+      <div class="offer-card">
+        <p class="num">Entrega</p>
+        <h4>Frete para todo o Brasil</h4>
+        <p>Rastreio em tempo real e embalagem própria para transporte seguro, em qualquer estado.</p>
+        <a href="#" class="offer-cta" data-product="frete para todo o Brasil">Consultar disponibilidade</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="footer-cta">
+  <h2 class="reveal">Fale com um especialista antes de decidir.</h2>
+  <a href="#" class="btn btn--primary reveal" id="ctaWa" data-cursor="Ver">Falar com um especialista</a>
+</section>
+
+<footer id="contato">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        VÉRTICE
+        <p>Loja independente especializada em iPhones, com curadoria, garantia e atendimento próximo em todo o Brasil.</p>
+      </div>
+      <div class="footer__col">
+        <h5>Navegação</h5>
+        <ul>
+          <li><a href="#hero">Início</a></li>
+          <li><a href="#produtos">iPhones</a></li>
+          <li><a href="#ofertas">Ofertas</a></li>
+          <li><a href="#acessorios">Galeria</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h5>Empresa</h5>
+        <ul>
+          <li><a href="#sobre">Sobre nós</a></li>
+          <li><a href="#detalhes">Modelos</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h5>Contato</h5>
+        <ul>
+          <li><a href="#" id="footerWa">WhatsApp</a></li>
+          <li><a href="mailto:contato@vertice.com.br">contato@vertice.com.br</a></li>
+          <li><a href="tel:+5511999999999">(11) 99999-9999</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© 2026 VÉRTICE. Loja independente — não afiliada à Apple Inc.</p>
+      <p>CNPJ 00.000.000/0001-00</p>
+    </div>
+  </div>
+</footer>
+
+<a class="float-wa" id="floatWa" href="#" target="_blank" rel="noopener" aria-label="Falar no WhatsApp" data-cursor="Falar">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.86.5 3.6 1.36 5.1L2 22l5.06-1.32A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm5.2 14.3c-.22.62-1.28 1.18-1.77 1.24-.45.06-1 .08-1.62-.1-.37-.11-.86-.28-1.48-.55-2.6-1.12-4.3-3.74-4.43-3.92-.13-.18-1.06-1.4-1.06-2.68 0-1.27.67-1.9.9-2.16.24-.26.5-.32.67-.32h.48c.15 0 .36-.06.56.43.22.53.73 1.85.8 1.98.06.13.1.28.02.46-.09.18-.13.28-.26.44-.13.15-.28.34-.4.46-.13.13-.27.27-.12.53.15.26.68 1.13 1.47 1.84 1.01.9 1.86 1.19 2.12 1.32.26.13.41.11.57-.07.15-.18.65-.76.83-1.02.18-.26.35-.21.59-.13.24.09 1.53.72 1.79.85.26.13.44.2.5.31.06.13.06.72-.16 1.33Z"/></svg>
+</a>
+
+<script>
+(function(){
+  "use strict";
+
+  var WHATSAPP_NUMBER = "5511999999999"; // TODO: substituir pelo número real da loja
+
+  function waLink(message){
+    return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+  }
+
+  var GENERIC_MSG = "Olá! Vim pelo site da VÉRTICE e gostaria de falar com um especialista.";
+
+  ["navWa","footerWa","ctaWa","floatWa"].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.href = waLink(GENERIC_MSG);
+  });
+
+  var PRODUCTS = [
+    {
+      name:"iPhone 17 Pro",
+      storage:"Consulte capacidades",
+      color:"Prata",
+      image:"assets/iphone-17-pro-finish-select-202509-6-3inch-silver.webp",
+      price:"Sob consulta",
+      install:"Consulte condições e disponibilidade",
+      tag:"Linha Pro",
+      featured:true
+    },
+    {
+      name:"iPhone 17 Pro",
+      storage:"Consulte capacidades",
+      color:"Laranja Cósmico",
+      image:"assets/iphone-17-pro-model-unselect-gallery-2-202509.webp",
+      price:"Sob consulta",
+      install:"Consulte condições e disponibilidade",
+      tag:"Destaque"
+    },
+    {
+      name:"iPhone 17",
+      storage:"Consulte capacidades",
+      color:"Azul Névoa",
+      image:"assets/iphone-17-finish-select-202509-mistblue.webp",
+      price:"Sob consulta",
+      install:"Consulte condições e disponibilidade",
+      tag:"Disponível"
+    },
+    {
+      name:"iPhone 17",
+      storage:"Consulte capacidades",
+      color:"Verde Sálvia",
+      image:"assets/iphone-17-finish-select-202509-sage.webp",
+      price:"Sob consulta",
+      install:"Consulte condições e disponibilidade",
+      tag:"Disponível"
+    }
+  ];
+
+  var grid = document.getElementById("productGrid");
+
+  PRODUCTS.forEach(function(p,i){
+    var card = document.createElement("article");
+    card.className = "product-card" + (p.featured ? " featured" : "");
+
+    card.innerHTML =
+      '<span class="product-card__tag">' + p.tag + '</span>' +
+      '<div class="product-card__media">' +
+        '<img src="' + p.image + '" alt="' + p.name + ' ' + p.color + '" loading="' + (i === 0 ? 'eager' : 'lazy') + '" decoding="async">' +
+      '</div>' +
+      '<h3 class="product-card__name">' + p.name + '</h3>' +
+      '<p class="product-card__meta">' + p.storage + ' · ' + p.color + '</p>' +
+      '<div class="product-card__price-row"><span class="product-card__price">' + p.price + '</span></div>' +
+      '<p class="product-card__install">' + p.install + '</p>' +
+      '<a class="product-card__cta" href="' +
+        waLink("Olá! Tenho interesse no " + p.name + " (" + p.color + ").") +
+        '" target="_blank" rel="noopener" data-cursor="Ver">' +
+        '<span>Consultar modelo</span>' +
+        '<svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17 17 7M9 7h8v8"/></svg>' +
+      '</a>';
+
+    grid.appendChild(card);
+  });
+
+  document.querySelectorAll(".offer-cta").forEach(function(a){
+    a.href = waLink("Olá! Tenho interesse em: " + a.dataset.product + ".");
+    a.target = "_blank";
+    a.rel = "noopener";
+  });
+
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      document.body.classList.add("is-ready");
+    });
+  });
+
+  var nav = document.getElementById("nav");
+  var progress = document.getElementById("scrollProgress");
+  var ticking = false;
+
+  function onScroll(){
+    var y = window.scrollY || document.documentElement.scrollTop;
+    nav.classList.toggle("is-scrolled",y > 40);
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = (max > 0 ? (y / max) * 100 : 0) + "%";
+    ticking = false;
+  }
+
+  window.addEventListener("scroll",function(){
+    if(!ticking){
+      requestAnimationFrame(onScroll);
+      ticking = true;
+    }
+  },{passive:true});
+
+  onScroll();
+
+  var phoneWrap = document.getElementById("heroPhoneWrap");
+  var heroSection = document.getElementById("hero");
+  var pTicking = false;
+
+  function onParallax(){
+    var rect = heroSection.getBoundingClientRect();
+    var progressY = Math.min(Math.max(-rect.top / (rect.height || 1),0),1);
+    if(phoneWrap){
+      phoneWrap.style.translate = "0 " + (progressY * 48) + "px";
+    }
+    pTicking = false;
+  }
+
+  window.addEventListener("scroll",function(){
+    if(!pTicking){
+      requestAnimationFrame(onParallax);
+      pTicking = true;
+    }
+  },{passive:true});
+
+  var revealEls = document.querySelectorAll(".reveal,.reveal-scale");
+
+  if("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        }
+      });
+    },{threshold:.18,rootMargin:"0px 0px -8% 0px"});
+
+    revealEls.forEach(function(el){io.observe(el)});
+  }else{
+    revealEls.forEach(function(el){el.classList.add("is-visible")});
+  }
+
+  var compareInput = document.getElementById("compareInput");
+  var compareAfter = document.querySelector(".compare__side.after");
+  var compareDivider = document.getElementById("compareDivider");
+  var compareHandle = document.getElementById("compareHandle");
+
+  function updateCompare(val){
+    compareAfter.style.clipPath = "inset(0 0 0 " + val + "%)";
+    compareDivider.style.left = val + "%";
+    compareHandle.style.left = val + "%";
+  }
+
+  if(compareInput){
+    compareInput.addEventListener("input",function(){
+      updateCompare(this.value);
+    });
+    updateCompare(50);
+  }
+
+  var isFinePointer = window.matchMedia && window.matchMedia("(pointer: fine)").matches;
+
+  if(isFinePointer){
+    document.body.classList.add("has-fine-pointer");
+
+    var cursor = document.getElementById("cursor");
+    var cursorLabel = document.getElementById("cursorLabel");
+    var cx = -100,cy = -100,tx = -100,ty = -100;
+
+    window.addEventListener("mousemove",function(e){
+      tx = e.clientX;
+      ty = e.clientY;
+    });
+
+    function loop(){
+      cx += (tx - cx) * .18;
+      cy += (ty - cy) * .18;
+      cursor.style.transform = "translate(" + cx + "px," + cy + "px)";
+      requestAnimationFrame(loop);
+    }
+
+    loop();
+
+    document.addEventListener("mouseover",function(e){
+      var el = e.target.closest("[data-cursor]");
+      if(!el) return;
+      cursor.classList.add("is-active");
+      cursorLabel.textContent = el.dataset.cursor || "";
+    });
+
+    document.addEventListener("mouseout",function(e){
+      var el = e.target.closest("[data-cursor]");
+      if(!el) return;
+      var to = e.relatedTarget && e.relatedTarget.closest ? e.relatedTarget.closest("[data-cursor]") : null;
+      if(to === el) return;
+      cursor.classList.remove("is-active");
+      cursorLabel.textContent = "";
+    });
+  }
+
+  document.querySelectorAll(".nav__links a").forEach(function(a){
+    a.addEventListener("click",function(){
+      nav.classList.add("is-scrolled");
+    });
+  });
+
+})();
+</script>
+</body>
+</html>
